@@ -5,6 +5,7 @@ export default {
 			$('.sitewrapper').toggleClass('openNav');
 			$('#menuToggle').toggleClass('open');
 			$('#mega-nav').toggleClass('open');
+
 		}
 		$('#menuToggle').click(menuMorph);
   },
