@@ -9,3 +9,91 @@
     color: darken(#525ddc, 30%);
   }
 }
+
+#menuToggle {
+  outline: none;
+  transition: transform 0.4s, background 0.4s;
+  z-index: 1000;
+
+  .menu-bar {
+    position: absolute;
+    height: 2px;
+    width: 40%;
+    border-radius: 10px;
+    left: 30%;
+    background: white;
+
+    &::before {
+      top: -5px;
+      content: " ";
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      border-radius: 10px;
+      left: 0%;
+      background: white;
+    }
+
+    &::after {
+      bottom: -5px;
+      content: " ";
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      border-radius: 10px;
+      left: 0%;
+      background: white;
+    }
+  }
+
+  &.open {
+    transform: rotate(180deg);
+    background: white;
+
+    .menu-bar {
+      background: none;
+
+      &::before {
+        transform: rotate(45deg);
+        background: $primary;
+        top: 0;
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+        background: $primary;
+        top: 0;
+      }
+    }
+  }
+}
+
+#mega-nav {
+  @apply opacity-0 bg-primary text-white fixed w-full h-full top-0 left-0 flex items-center justify-center z-40;
+
+  transition: opacity 0.4s;
+
+  &.open {
+    @apply block opacity-100 ;
+  }
+
+  li {
+    @apply pb-5;
+  }
+
+  a {
+    @apply text-white block text-2xl border-none font-bold;
+  }
+}
+
+@screen lg {
+  #mega-nav {
+    a {
+      @apply text-5xl;
+    }
+
+    li {
+      @apply pb-10;
+    }
+  }
+}

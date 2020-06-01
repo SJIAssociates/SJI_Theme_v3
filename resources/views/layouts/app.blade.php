@@ -2,22 +2,22 @@
 <html {!! get_language_attributes() !!}>
   @include('partials.head')
   <body @php body_class() @endphp>
-    @php do_action('get_header') @endphp
-    @include('partials.header')
-    <div class="wrap container" role="document">
-      <div class="content">
-        <main class="main">
-          @yield('content')
-        </main>
-        @if (App\display_sidebar())
-          <aside class="sidebar">
-            @include('partials.sidebar')
-          </aside>
-        @endif
+    <div class="sitewrapper">
+      @php do_action('get_header') @endphp
+      @include('partials.header')
+
+      <div class='wrap' role='document'>
+        @yield('content')
+
+        @php do_action('get_footer') @endphp
+        @include('partials.footer')
+        @php wp_footer() @endphp
       </div>
     </div>
-    @php do_action('get_footer') @endphp
-    @include('partials.footer')
-    @php wp_footer() @endphp
+    <section id="mega-nav" class="lg:hidden lg:p-16 slideInRight">
+      @if (has_nav_menu('primary_navigation'))
+        {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav text-right mt-10']) !!}
+      @endif
+    </section>
   </body>
 </html>
