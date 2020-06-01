@@ -1,0 +1,13 @@
+.content-info {
+  a {
+    @apply text-white leading-normal border-none;
+
+    &:hover {
+      @apply border-none text-primary;
+    }
+  }
+
+  .vcard {
+    font-size: 18px;
+  }
+}
