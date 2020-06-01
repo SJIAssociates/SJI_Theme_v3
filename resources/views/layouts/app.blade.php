@@ -4,6 +4,7 @@
   <body @php body_class() @endphp>
     <div class="sitewrapper">
       @php do_action('get_header') @endphp
+      
       @include('partials.header')
 
       <div class='wrap' role='document'>
