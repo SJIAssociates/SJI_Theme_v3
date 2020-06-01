@@ -14,7 +14,7 @@
         @php wp_footer() @endphp
       </div>
     </div>
-    <section id="mega-nav" class="lg:hidden p-12 animate__animated animate__fast">
+    <section id="mega-nav" class="p-12 animate__animated animate__fast">
       @if (has_nav_menu('primary_navigation'))
         {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav text-right mt-12 lg:mt-16']) !!}
       @endif

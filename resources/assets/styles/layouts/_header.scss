@@ -27,6 +27,7 @@
       top: -5px;
       content: " ";
       position: absolute;
+      transition: all 0.4s;
       height: 2px;
       width: 100%;
       border-radius: 10px;
@@ -38,6 +39,7 @@
       bottom: -5px;
       content: " ";
       position: absolute;
+      transition: all 0.4s;
       height: 2px;
       width: 100%;
       border-radius: 10px;
@@ -66,12 +68,26 @@
       }
     }
   }
+
+  &:hover {
+    background: darken($primary, 10%);
+
+    .menu-bar {
+      &::before {
+        transform: translateY(1px);
+      }
+
+      &::after {
+        transform: translateY(-1px);
+      }
+    }
+  }
 }
 
 #mega-nav {
-  @apply opacity-0 bg-primary text-white fixed w-full h-full top-0 left-0 flex items-center justify-center;
+  @apply opacity-0 bg-primary bg-opacity-75 text-white fixed w-full h-full top-0 left-0;
 
-  transition: opacity 0.4s;
+  transition: opacity 0.4s 0.5s, z-index 1s 2s;
   z-index: -10;
 
   li {
@@ -107,8 +123,10 @@
   }
 
   &.open {
-    @apply block opacity-100;
-    z-index: 999;
+    @apply opacity-100;
+
+    transition: opacity 0.4s;
+    z-index: 49;
 
     li {
       transform: translateX(0%);
