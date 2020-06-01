@@ -3,6 +3,12 @@
     <div class='flex flex-wrap justify-between'>
       <div class='w-full lg:w-1/2'>
         @php dynamic_sidebar('footer_left') @endphp
+        <p class='text-grey-500 social-links'>Follow Us:
+  				<a href="{{ $social->twitter }}" 		target="_blank" title="twitter" class="hover:text-primary hover:no-underline"  rel='noopener'><i class="fab fa-twitter"></i></a>
+  				<a href="{{ $social->facebook }}" 	target="_blank" title="facebook" class="hover:text-primary hover:no-underline" rel='noopener'><i class="fab fa-facebook-f"></i></a>
+  				<a href="{{ $social->youtube }}" 		target="_blank" title="youtube" class="hover:text-primary hover:no-underline"	 rel='noopener'><i class="fab fa-youtube"></i></a>
+  				<a href="{{ $social->instagram }}" 	target="_blank" title="instagram" class="hover:text-primary hover:no-underline" rel='noopener'><i class="fab fa-instagram"></i></a>
+  			</p>
       </div>
       <div class='w-full lg:w-1/4'>
         @php dynamic_sidebar('footer_middle') @endphp

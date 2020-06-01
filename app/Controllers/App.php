@@ -30,4 +30,14 @@ class App extends Controller
         }
         return get_the_title();
     }
+
+    public function social()
+    {
+      return (object) array(
+         'facebook'  =>   get_field('facebook','options'),
+         'twitter'   =>   get_field('twitter','options'),
+         'youtube'   =>   get_field('youtube','options'),
+         'instagram' =>   get_field('instagram','options')
+      );
+    }
 }
