@@ -87,10 +87,19 @@ add_action('widgets_init', function () {
         'id'            => 'sidebar-primary'
     ] + $config);
     register_sidebar([
-        'name'          => __('Footer', 'sage'),
-        'id'            => 'sidebar-footer'
+        'name'          => __('Footer Left', 'sage'),
+        'id'            => 'footer_left'
+    ] + $config);
+    register_sidebar([
+        'name'          => __('Footer Middle', 'sage'),
+        'id'            => 'footer_middle'
+    ] + $config);
+    register_sidebar([
+        'name'          => __('Footer Right', 'sage'),
+        'id'            => 'footer_right'
     ] + $config);
 });
+
 
 /**
  * Updates the `$post` variable on each iteration of the loop.
@@ -129,4 +138,263 @@ add_action('after_setup_theme', function () {
     sage('blade')->compiler()->directive('asset', function ($asset) {
         return "<?= " . __NAMESPACE__ . "\\asset_path({$asset}); ?>";
     });
+
+
+
 });
+
+// -------------------------------------------------------------
+// VCard
+// -------------------------------------------------------------
+
+class Roots_Vcard_Widget extends \WP_Widget {
+  private $fields = array(
+    'title'          => 'Title (optional)',
+    'street_address' => 'Street Address',
+    'locality'       => 'City/Locality',
+    'region'         => 'State/Region',
+    'postal_code'    => 'Zipcode/Postal Code',
+    'tel'            => 'Telephone',
+    'email'          => 'Email'
+  );
+
+  function __construct() {
+    $widget_ops = array('classname' => 'widget_roots_vcard', 'description' => __('Use this widget to add a vCard', 'roots'));
+
+    parent::__construct('widget_roots_vcard', __('Roots: vCard', 'roots'), $widget_ops);
+    $this->alt_option_name = 'widget_roots_vcard';
+
+    add_action('save_post', array(&$this, 'flush_widget_cache'));
+    add_action('deleted_post', array(&$this, 'flush_widget_cache'));
+    add_action('switch_theme', array(&$this, 'flush_widget_cache'));
+  }
+
+  function widget($args, $instance) {
+    $cache = wp_cache_get('widget_roots_vcard', 'widget');
+
+    if (!is_array($cache)) {
+      $cache = array();
+    }
+
+    if (!isset($args['widget_id'])) {
+      $args['widget_id'] = null;
+    }
+
+    if (isset($cache[$args['widget_id']])) {
+      echo $cache[$args['widget_id']];
+      return;
+    }
+
+    ob_start();
+    extract($args, EXTR_SKIP);
+
+    $title = apply_filters('widget_title', empty($instance['title']) ? __('vCard', 'roots') : $instance['title'], $instance, $this->id_base);
+
+    foreach($this->fields as $name => $label) {
+      if (!isset($instance[$name])) { $instance[$name] = ''; }
+    }
+
+    echo $before_widget;
+
+    if ($title) {
+      //echo $before_title, $title, $after_title;
+    }
+  ?>
+    <p class="vcard">
+      <a class="fn org url" href="<?php echo home_url('/'); ?>"><?php bloginfo('name'); ?></a><br>
+      <span class="adr">
+        <span class="street-address"><?php echo $instance['street_address']; ?></span><br>
+        <span class="locality"><?php echo $instance['locality']; ?></span>,
+        <span class="region"><?php echo $instance['region']; ?></span>
+        <span class="postal-code"><?php echo $instance['postal_code']; ?></span><br>
+      </span>
+      <br>
+      <span class="email "><a  href="mailto:<?php echo $instance['email']; ?>" class='text-black'/>Email: <?php echo $instance['email']; ?></a></span><br>
+      <span class="tel">Phone: <span class="value"><?php echo $instance['tel']; ?></span></span>
+
+    </p>
+          <br>
+  <?php
+    echo $after_widget;
+
+    $cache[$args['widget_id']] = ob_get_flush();
+    wp_cache_set('widget_roots_vcard', $cache, 'widget');
+  }
+
+  function update($new_instance, $old_instance) {
+    $instance = array_map('strip_tags', $new_instance);
+
+    $this->flush_widget_cache();
+
+    $alloptions = wp_cache_get('alloptions', 'options');
+
+    if (isset($alloptions['widget_roots_vcard'])) {
+      delete_option('widget_roots_vcard');
+    }
+
+    return $instance;
+  }
+
+  function flush_widget_cache() {
+    wp_cache_delete('widget_roots_vcard', 'widget');
+  }
+
+  function form($instance) {
+    foreach($this->fields as $name => $label) {
+      ${$name} = isset($instance[$name]) ? esc_attr($instance[$name]) : '';
+    ?>
+    <p>
+      <label for="<?php echo esc_attr($this->get_field_id($name)); ?>"><?php _e("{$label}:", 'roots'); ?></label>
+      <input class="widefat" id="<?php echo esc_attr($this->get_field_id($name)); ?>" name="<?php echo esc_attr($this->get_field_name($name)); ?>" type="text" value="<?php echo ${$name}; ?>">
+    </p>
+    <?php
+    }
+  }
+}
+// -------------------------------------------------------------
+// VCard
+// -------------------------------------------------------------
+function register_Roots_Vcard_Widget() {
+	register_widget( __NAMESPACE__ . '\\Roots_Vcard_Widget' );
+}
+add_action('widgets_init', __NAMESPACE__ . '\\register_Roots_Vcard_Widget');
+
+/**
+ * Setup Sage options
+ */
+add_action('after_setup_theme', function () {
+    /**
+     * Add JsonManifest to Sage container
+     */
+    sage()->singleton('sage.assets', function () {
+        return new JsonManifest(config('assets.manifest'), config('assets.uri'));
+    });
+
+    /**
+     * Add Blade to Sage container
+     */
+    sage()->singleton('sage.blade', function (Container $app) {
+        $cachePath = config('view.compiled');
+        if (!file_exists($cachePath)) {
+            wp_mkdir_p($cachePath);
+        }
+        (new BladeProvider($app))->register();
+        return new Blade($app['view']);
+    });
+
+    /**
+     * Create @asset() Blade directive
+     */
+    sage('blade')->compiler()->directive('asset', function ($asset) {
+        return "<?= " . __NAMESPACE__ . "\\asset_path({$asset}); ?>";
+    });
+});
+// -------------------------------------------------------------
+// Remove Comments
+// -------------------------------------------------------------
+function custom_menu_page_removing() {
+  remove_menu_page( 'edit-comments.php' );          //Comments
+}
+add_action( 'admin_menu', __NAMESPACE__ .'\\custom_menu_page_removing' );
+// -------------------------------------------------------------
+// Fix Titles for Archives
+// -------------------------------------------------------------
+add_filter( 'get_the_archive_title', function ($title) {
+
+    if ( is_category() ) {
+
+            $title = single_cat_title( '', false );
+
+        } elseif ( is_tag() ) {
+
+            $title = single_tag_title( '', false );
+
+        } elseif ( is_author() ) {
+
+            $title = '<span class="vcard">' . get_the_author() . '</span>' ;
+
+        }
+
+    return $title;
+
+});
+// -------------------------------------------------------------
+// is_tree function
+// Based on http://css-tricks.com/snippets/wordpress/if-page-is-parent-or-child/
+// -------------------------------------------------------------
+function is_tree($pid) {      // $pid = The ID of the page we're looking for pages underneath
+	global $post;         // load details about this page
+	$ancestors = get_post_ancestors($post);
+	if(is_page()&&($post->post_parent==$pid||is_page($pid)||in_array($pid,$ancestors)))
+               return true;   // we're at the page or at a sub page
+	else
+               return false;  // we're elsewhere
+};
+// -------------------------------------------------------------
+// Removes or edits the 'Protected:' part from posts titles
+// -------------------------------------------------------------
+function remove_protected_text() {
+  return __('%s');
+}
+add_filter( 'protected_title_format',  __NAMESPACE__ .'\\remove_protected_text' );
+
+add_filter('init', function () {
+    if (is_admin()) {
+        return;
+    }
+    wp_deregister_script( 'jquery-core' );
+    wp_register_script( 'jquery-core', "https://code.jquery.com/jquery-3.5.1.min.js", array(), '3.1.1' );
+    wp_deregister_script( 'jquery-migrate' );
+    wp_register_script( 'jquery-migrate', "https://code.jquery.com/jquery-migrate-3.0.0.min.js", array(), '3.0.0' );
+});
+// -------------------------------------------------------------
+// Front Page Scripts Cleanup
+// -------------------------------------------------------------
+function script_cleanup() {
+
+  if(is_front_page()  ) {
+    //Enter Scripts Here.
+
+    //Events Calendar
+    //wp_dequeue_script('tribe-common');
+    //wp_dequeue_script('tribe-tooltip-js');
+
+    //Contact Form 7 (not needed if no form is on the homepage)
+    //wp_dequeue_script('contact-form-7');
+
+  }
+
+}
+add_action('wp_footer', __NAMESPACE__ .'\\script_cleanup');
+// -------------------------------------------------------------
+// Front Page Style Cleanup
+// -------------------------------------------------------------
+function style_cleanup() {
+  if(is_front_page()  ) {
+
+    //Contact Form 7
+    //wp_dequeue_style('contact-form-7');
+
+
+    //Events
+    //wp_dequeue_style('tribe-tooltip');
+    //wp_dequeue_style('tribe-events-admin-menu');
+
+    //Simple Lightbox
+    //wp_dequeue_style('slb_core');
+
+  }
+  //This is how you dequeue scripts on a speciic Page
+  // if(basename(get_page_template()) == "template-form.blade.php") {
+  //
+  // }
+}
+add_action('wp_enqueue_scripts', __NAMESPACE__ .'\\style_cleanup',100);
+
+// -------------------------------------------------------------
+// Front Page Style Cleanup
+// -------------------------------------------------------------
+function remove_roots_share_buttons_assets() {
+  wp_dequeue_style('roots-share-buttons');
+}
+add_action('wp_enqueue_scripts',  __NAMESPACE__ .'\\remove_roots_share_buttons_assets');
