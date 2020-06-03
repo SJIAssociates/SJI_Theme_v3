@@ -1,10 +1,10 @@
 <!doctype html>
 <html {!! get_language_attributes() !!}>
   @include('partials.head')
-  <body @php body_class() @endphp>
+  <body @php body_class('bg-grey-lightest') @endphp>
     <div class="sitewrapper">
       @php do_action('get_header') @endphp
-      
+
       @include('partials.header')
 
       <div class='wrap' role='document'>

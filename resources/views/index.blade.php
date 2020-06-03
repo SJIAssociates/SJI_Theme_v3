@@ -3,7 +3,8 @@
 
 @section('content')
 @include('partials.page-header')
-  <div class="wrap container" role="document">
+<section>
+  <div class="container">
     <div class="content flex flex-wrap">
       <main class="main">
         @if (!have_posts())
@@ -13,12 +14,17 @@
           {!! get_search_form(false) !!}
         @endif
 
-      @while (have_posts()) @php the_post() @endphp
-        @include('partials.content-'.get_post_type())
-      @endwhile
+        @while (have_posts()) @php the_post() @endphp
+          @include('partials.content-'.get_post_type())
+        @endwhile
 
-      {!! get_the_posts_navigation() !!}
-    </main>
+        {!! get_the_posts_navigation(array(
+            'prev_text'                  => __( 'Prev' ),
+            'next_text'                  => __( 'Next' ),
+            'screen_reader_text' => __( 'Continue Reading' ),
+        )) !!}
+      </main>
+    </div>
   </div>
-</div>
+</section>
 @endsection
