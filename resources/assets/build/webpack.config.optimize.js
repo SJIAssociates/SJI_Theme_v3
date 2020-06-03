@@ -59,6 +59,13 @@ module.exports = {
                extensions: ["js", "php"],
              },
            ],
+           whitelist: [
+             ...whitelister([
+               "node_modules/tailwindcss/css/preflight.css",
+               "resources/assets/styles/common/*.scss",
+               "resources/assets/styles/components/*.scss",
+               "resources/assets/styles/layouts/*.scss"]),
+           ],
            whitelistPatterns: [
              /ctct*/,/ssba*/,/fsForm*/,/page-template-template-form*/,
              /tribe-bar-form*/,/tribe-events-list-separator-month/,

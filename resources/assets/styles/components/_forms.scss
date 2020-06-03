@@ -20,3 +20,25 @@
     @apply bg-grey-light;
   }
 }
+
+.gfield {
+  input {
+    background: white;
+    border: 1px solid #eee;
+    width: 100%;
+  }
+}
+
+input[type="submit"] {
+  display: block;
+  padding: 10px 25px;
+  color: white;
+  background: $primary;
+  text-align: center;
+  transition: all 0.4s;
+  cursor: pointer;
+
+  &:hover {
+    background: darken($primary, 10%);
+  }
+}
