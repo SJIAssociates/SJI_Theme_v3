@@ -132,7 +132,26 @@ function locate_template($templates)
  */
 function display_sidebar()
 {
-    static $display;
-    isset($display) || $display = apply_filters('sage/display_sidebar', false);
-    return $display;
+  static $display;
+
+  isset($display) || $display = in_array(true, [
+    // The sidebar will be displayed if any of the following return true
+    is_single(),
+    is_404(),
+    is_page_template('views/template-custom.blade.php')
+  ]);
+
+  return $display;
+}
+
+/**
+ * Simple function to pretty up our field partial includes.
+ *
+ * @param  mixed $partial
+ * @return mixed
+ */
+function get_field_partial($partial)
+{
+    $partial = str_replace('.', '/', $partial);
+    return include(config('theme.dir')."/app/fields/{$partial}.php");
 }

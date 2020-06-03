@@ -6,6 +6,7 @@ use Roots\Sage\Container;
 use Roots\Sage\Assets\JsonManifest;
 use Roots\Sage\Template\Blade;
 use Roots\Sage\Template\BladeProvider;
+use StoutLogic\AcfBuilder\FieldsBuilder;
 
 /**
  * Theme assets
@@ -77,9 +78,9 @@ add_action('after_setup_theme', function () {
  */
 add_action('widgets_init', function () {
     $config = [
-        'before_widget' => '<section class="widget %1$s %2$s">',
+        'before_widget' => '<section class="widget %1$s %2$s pb-10">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h3>',
+        'before_title'  => '<h3 class="text-center text-primary">',
         'after_title'   => '</h3>'
     ];
     register_sidebar([
@@ -398,3 +399,31 @@ function remove_roots_share_buttons_assets() {
   wp_dequeue_style('roots-share-buttons');
 }
 add_action('wp_enqueue_scripts',  __NAMESPACE__ .'\\remove_roots_share_buttons_assets');
+
+
+// -------------------------------------------------------------
+//  Initialize ACF Builder
+// -------------------------------------------------------------
+
+add_action('init', function () {
+    collect(glob(config('theme.dir').'/app/fields/*.php'))->map(function ($field) {
+        return require_once($field);
+    })->map(function ($field) {
+        if ($field instanceof FieldsBuilder) {
+            acf_add_local_field_group($field->build());
+        }
+    });
+});
+// -------------------------------------------------------------
+// ACF Options Page
+// -------------------------------------------------------------
+if( function_exists('acf_add_options_page') ) {
+
+	acf_add_options_page(array(
+		'page_title' 	=> 'Theme General Settings',
+		'menu_title'	=> 'Theme Settings',
+		'menu_slug' 	=> 'theme-general-settings',
+		'capability'	=> 'edit_posts',
+		'redirect'		=> false
+	));
+}
