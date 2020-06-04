@@ -15,7 +15,7 @@
 
 
 let colors = {
-  'primary': '#525ddc',
+  'primary': '#dc6e37',
 
   'transparent': 'transparent',
 
@@ -58,7 +58,7 @@ module.exports = {
     },
     fontFamily: {
       'sans': [
-        'Open Sans',
+        'benton-sans',
         '-apple-system',
         'Segoe UI',
         'Roboto',
@@ -92,6 +92,7 @@ module.exports = {
       '3xl': '1.875rem',  // 30px
       '4xl': '2.25rem',   // 36px
       '5xl': '3rem',      // 48px
+      '6xl':  '4rem',     // 64px
     },
     fontWeight: {
       'hairline': 100,
