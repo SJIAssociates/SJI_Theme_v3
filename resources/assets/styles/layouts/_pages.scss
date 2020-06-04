@@ -1,0 +1,19 @@
+.entry-content {
+  h2 {
+    color: #000;
+    border-top: 5px solid #dc6e37;
+    padding-top: 8px;
+    font-size: 1.25em;
+    font-weight: 700;
+    margin-top: 20px;
+    display: inline-block;
+  }
+
+  h3 {
+    @apply text-3xl text-black font-bold mt-5;
+
+    span {
+      @apply text-primary;
+    }
+  }
+}
