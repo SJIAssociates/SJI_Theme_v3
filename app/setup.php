@@ -428,3 +428,14 @@ if( function_exists('acf_add_options_page') ) {
 		'redirect'		=> false
 	));
 }
+// -------------------------------------------------------------
+// Override Visual Editor
+// -------------------------------------------------------------
+function override_mce_options($initArray)
+{
+  $opts = '*[*]';
+  $initArray['valid_elements'] = $opts;
+  $initArray['extended_valid_elements'] = $opts;
+  return $initArray;
+ }
+ add_filter('tiny_mce_before_init',  __NAMESPACE__ .'\\override_mce_options');
