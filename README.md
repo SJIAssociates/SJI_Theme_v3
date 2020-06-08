@@ -13,7 +13,11 @@ Sage is a WordPress starter theme with a modern development workflow.
 * [Browsersync](http://www.browsersync.io/) for synchronized browser testing
 * [Blade](https://laravel.com/docs/5.6/blade) as a templating engine
 * [Controller](https://github.com/soberwp/controller) for passing data to Blade templates
-* CSS framework (optional): [Bootstrap 4](https://getbootstrap.com/), [Bulma](https://bulma.io/), [Foundation](https://foundation.zurb.com/), [Tachyons](http://tachyons.io/), [Tailwind](https://tailwindcss.com/)
+* CSS framework: [Tailwind 1.4](https://tailwindcss.com/)
+* PurgeCSS is enabled with a whitelist function that clears out all unused CSS
+* JQuery 3.5.1
+* FontAwesome 5 is loaded in Development and trimmed for production so that the only icons added are those used in the template files.
+* ACF Builder is Included to enable quick protoyping of fields in PHP rather than the UI backend.
 
 See a working example at [roots-example-project.com](https://roots-example-project.com/).
 
@@ -54,6 +58,9 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   ├── filters.php       # → Theme filters
 │   ├── helpers.php       # → Helper functions
 │   └── setup.php         # → Theme setup
+├── fields/               # → ACF Builder
+│   ├── partials/         # → Tabs for ACF builds
+│   └── views/            # → ACF Flex Views.
 ├── composer.json         # → Autoloading for `app/` files
 ├── composer.lock         # → Composer lock file (never edit)
 ├── dist/                 # → Built theme assets (never edit)
@@ -98,13 +105,3 @@ Edit `app/setup.php` to enable or disable theme features, setup navigation menus
 
 * [Sage documentation](https://roots.io/sage/docs/)
 * [Controller documentation](https://github.com/soberwp/controller#usage)
-
-## Upgrades by Collin
-
-This theme is upgraded from the Sage 9.0.9 Theme.
-
- * Includes TailwindCss 1.4
- * PurgeCSS is enabled with a whitelist function that clears out all unused CSS
- * JQuery 3.5.1
- * FontAwesome 5 is loaded in Development and trimmed for production so that the only icons added are those used in the template files.
- * ACF Builder is Included to enable quick protoyping of fields in PHP rather than the UI backend.
