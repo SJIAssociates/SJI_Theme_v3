@@ -3,17 +3,42 @@
     color: #000;
     border-top: 5px solid #dc6e37;
     padding-top: 8px;
-    font-size: 1.25em;
-    font-weight: 700;
+    font-size: 1.1em;
+    font-weight: 800;
     margin-top: 20px;
+    margin-bottom: 15px;
+    letter-spacing: 0.01em;
     display: inline-block;
   }
 
   h3 {
-    @apply text-3xl text-black font-bold mt-5;
+    @apply text-3xl text-black font-extrabold mt-5;
 
     span {
       @apply text-primary;
     }
+  }
+}
+
+.h-custom {
+  min-height: 180px;
+}
+
+.custom-bg {
+  .entry-content h2 {
+    color: white;
+    border-color: white;
+  }
+}
+
+@screen md {
+  .h-custom {
+    min-height: 400px;
+  }
+}
+
+@screen lg {
+  .h-custom {
+    min-height: 600px;
   }
 }

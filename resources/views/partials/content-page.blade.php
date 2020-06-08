@@ -1,2 +1,3 @@
-@php the_content() @endphp
-{!! wp_link_pages(['echo' => 0, 'before' => '<nav class="page-nav"><p>' . __('Pages:', 'sage'), 'after' => '</p></nav>']) !!}
+<div class='entry-content mx-auto lg:w-4/5'>
+  @php the_content() @endphp
+</div>
