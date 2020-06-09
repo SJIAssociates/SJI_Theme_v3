@@ -13,15 +13,15 @@
   @foreach ($flex_generator as $block)
 
     @if ($block->block_type == 'One Column')
-      @include('partials.aboutOneColumn')
+      @include('partials.layout.aboutOneColumn')
     @endif
 
     @if ($block->block_type == 'Two Columns')
-      @include('partials.aboutTwoColumn')
+      @include('partials.layout.aboutTwoColumn')
     @endif
 
     @if ($block->block_type == 'Header')
-      @include('partials.aboutHeader')
+      @include('partials.layout.aboutHeader')
     @endif
   @endforeach
 @endif
