@@ -12,7 +12,6 @@
 
         @php do_action('get_footer') @endphp
         @include('partials.footer')
-        @php wp_footer() @endphp
       </div>
     </div>
     <section id="mega-nav" class="p-12 animate__animated animate__fast">
@@ -20,5 +19,6 @@
         {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav text-right mt-12 lg:mt-16']) !!}
       @endif
     </section>
+    @php wp_footer() @endphp
   </body>
 </html>
