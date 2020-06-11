@@ -81,7 +81,7 @@ add_action('widgets_init', function () {
     $config = [
         'before_widget' => '<section class="widget %1$s %2$s pb-10">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="text-center text-primary">',
+        'before_title'  => '<h3 class="font-bold">',
         'after_title'   => '</h3>'
     ];
     register_sidebar([
@@ -211,8 +211,8 @@ class Roots_Vcard_Widget extends \WP_Widget {
         <span class="postal-code"><?php echo $instance['postal_code']; ?></span><br>
       </span>
       <br>
-      <span class="email "><a  href="mailto:<?php echo $instance['email']; ?>" class='text-black'/>Email: <?php echo $instance['email']; ?></a></span><br>
-      <span class="tel">Phone: <span class="value"><?php echo $instance['tel']; ?></span></span>
+      <span class="email "><i class='fas fa-envelope mr-2'></i><a  href="mailto:<?php echo $instance['email']; ?>" class='text-black'/><?php echo $instance['email']; ?></a></span><br>
+      <span class="tel"><i class='fas fa-phone mr-2'></i> <span class="value"><?php echo $instance['tel']; ?></span></span>
 
     </p>
           <br>
@@ -439,3 +439,95 @@ function override_mce_options($initArray)
   return $initArray;
  }
  add_filter('tiny_mce_before_init',  __NAMESPACE__ .'\\override_mce_options');
+
+ // -------------------------------------------------------------
+ // Allow SVG in Media Library
+ // -------------------------------------------------------------
+ function cc_mime_types($mimes) {
+   $mimes['svg'] = 'image/svg+xml';
+   return $mimes;
+}
+add_filter('upload_mimes', __NAMESPACE__ .'\\cc_mime_types');
+// -------------------------------------------------------------
+// Set Theme Colors
+// -------------------------------------------------------------
+add_action( 'after_setup_theme', __NAMESPACE__ .'\\prefix_register_colors' );
+function prefix_register_colors() {
+	add_theme_support(
+		'editor-color-palette', array(
+			array(
+				'name'  => esc_html__( 'Primary', 'prefix_textdomain' ),
+				'slug' => 'primary',
+				'color' => '#dc6e37',
+			),
+			array(
+				'name'  => esc_html__( 'Black', 'prefix_textdomain' ),
+				'slug' => 'black',
+				'color' => '#22292f',
+			),
+			array(
+				'name'  => esc_html__( 'Grey', 'prefix_textdomain' ),
+				'slug' => 'light',
+				'color' => '#e6e7e9',
+			),
+			array(
+				'name'  => esc_html__( 'Grey Darker', 'prefix_textdomain' ),
+				'slug' => 'greydarker',
+				'color' => '#606f7b',
+			),
+		)
+	);
+}
+
+/**
+ * Get the colors formatted for use with Iris, Automattic's color picker
+ */
+function output_the_colors() {
+
+	// get the colors
+    $color_palette = current( (array) get_theme_support( 'editor-color-palette' ) );
+
+	// bail if there aren't any colors found
+	if ( !$color_palette )
+		return;
+
+	// output begins
+	ob_start();
+
+	// output the names in a string
+	echo '[';
+		foreach ( $color_palette as $color ) {
+			echo "'" . $color['color'] . "', ";
+		}
+	echo ']';
+
+    return ob_get_clean();
+
+}
+/**
+ * Add the colors into Iris
+ */
+add_action( 'acf/input/admin_footer',  __NAMESPACE__ .'\\gutenberg_sections_register_acf_color_palette' );
+function gutenberg_sections_register_acf_color_palette() {
+
+    $color_palette = output_the_colors();
+    if ( !$color_palette )
+        return;
+
+    ?>
+    <script type="text/javascript">
+        (function( $ ) {
+            acf.add_filter( 'color_picker_args', function( args, $field ){
+
+                // add the hexadecimal codes here for the colors you want to appear as swatches
+                args.palettes = <?php echo $color_palette; ?>
+
+                // return colors
+                return args;
+
+            });
+        })(jQuery);
+    </script>
+    <?php
+
+}

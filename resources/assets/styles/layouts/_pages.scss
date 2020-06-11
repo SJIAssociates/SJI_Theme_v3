@@ -18,6 +18,28 @@
       @apply text-primary;
     }
   }
+
+  ul {
+    list-style: none;
+    padding-left: 15px;
+
+    li {
+      position: relative;
+      padding-left: 3px;
+      font-size: 18px;
+      line-height: 1.75;
+
+      &::before {
+        content: "■";
+        font-family: "Arial Black", serif;
+        position: absolute;
+        left: -15px;
+        top: -7px;
+        font-size: 1.2em;
+        color: $primary;
+      }
+    }
+  }
 }
 
 .h-custom {

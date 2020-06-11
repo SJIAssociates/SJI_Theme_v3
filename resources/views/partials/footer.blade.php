@@ -1,4 +1,4 @@
-<footer class="content-info bg-primary pt-5 lg:pt-20 text-white">
+<footer class="content-info bg-grey-darker pt-5 lg:pt-20 text-white">
   <div class="container lg:pb-24">
     <div class='flex flex-wrap justify-between'>
       <div class='w-full lg:w-1/2'>

@@ -4,10 +4,6 @@
 
 .banner .nav a {
   @apply inline-block px-4 py-2 border-none;
-
-  &:hover {
-    color: darken(#525ddc, 30%);
-  }
 }
 
 #menuToggle {
@@ -138,7 +134,7 @@
     @apply text-white block text-2xl border-none font-bold leading-none;
 
     &:hover {
-      color: darken(white, 10%);
+      color: #333;
       padding-right: 5px;
     }
   }
