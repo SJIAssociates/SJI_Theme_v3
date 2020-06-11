@@ -16,6 +16,7 @@ $flex
     ->addLayout(get_field_partial('views/columnOne'))
 
     ->addLayout(get_field_partial('views/columnTwo'))
+    ->addLayout(get_field_partial('views/columnThree'))
     ->addLayout(get_field_partial('views/header'));
 
 return $flex;
