@@ -20,6 +20,10 @@
       @include('partials.layout.aboutTwoColumn')
     @endif
 
+    @if ($block->block_type == 'Three Columns')
+      @include('partials.layout.aboutThreeColumn')
+    @endif
+
     @if ($block->block_type == 'Header')
       @include('partials.layout.aboutHeader')
     @endif

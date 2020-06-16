@@ -9,7 +9,8 @@ $header = new FieldsBuilder('Header');
 $header
   ->addGroup('Header')
 
-    ->addFields(get_field_partial('partials.content')->removeField('section_content'))
+    ->addFields(get_field_partial('partials.content')
+      ->removeField('section_content'))
 
 
     ->addFields(get_field_partial('partials.background'))

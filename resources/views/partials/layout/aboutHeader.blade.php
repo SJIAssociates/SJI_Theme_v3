@@ -14,7 +14,7 @@
   <div class='container'>
     <div class='entry-content lg:w-4/5 mx-auto'>
       @if( !empty($block->header) )
-        <h2>{{ $block->header }}</h2>
+        <h2 class='text-3xl' style="color:{{ $block->color }}">{{ $block->header }}</h2>
       @endif
     </div>
   </div>

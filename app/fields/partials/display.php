@@ -11,15 +11,24 @@ $TabDisplay
       ->addButtonGroup('section_height', [ 'label' => 'Section Height'])
         ->addChoices(['auto' => 'Auto'], ['min-h-screen' => 'Full Screen'], ['h-custom' => 'Custom'])
         ->setDefaultValue('auto')
-        ->setWrapper(['width' => '33', 'class' => 'field', 'id' => 'field'])
 
         ->addButtonGroup('header_location')
           ->setLabel('Header Location')
-          ->addChoices(['' => 'Top'], ['flex flex-wrap justify' => 'Middle'], ['flex flex-col-reverse' => 'Bottom'])
+          ->addChoices(['' => 'Top'], ['flex flex-wrap content-center text-center' => 'Middle'], ['flex flex-col-reverse' => 'Bottom'])
           ->setDefaultValue('')
+          ->setWidth('50%')
 
-        ->addButtonGroup('padding_setting', [ 'label' => 'Padding Style'])
-          ->addChoices(['py-5 lg:py-10' => 'Normal'], ['py-0' => 'None'])
-          ->setDefaultValue('normal');
+        ->addColorPicker('header_color', ['label' => 'Header Color'])
+          ->setWidth('50%')
+
+        ->addButtonGroup('padding_top', [ 'label' => 'Padding Top'])
+          ->addChoices(['' => 'Normal'], ['pt-0 lg:pt-0' => 'None'])
+          ->setDefaultValue('')
+          ->setWidth('50%')
+
+        ->addButtonGroup('padding_bottom', [ 'label' => 'Padding Bottom'])
+          ->addChoices(['' => 'Normal'], ['pb-0 lg:pb-0' => 'None'])
+          ->setDefaultValue('')
+          ->setWidth('50%');
 
 return $TabDisplay;

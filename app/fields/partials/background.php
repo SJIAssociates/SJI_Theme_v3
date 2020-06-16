@@ -15,6 +15,7 @@ $background
           'return_format' => 'array',
           'preview_size' => 'thumbnail',
       ])
+      ->setWrapper(['width' => '50'])
 
       ->addButtonGroup('background_image_size', [
         'label' => 'Background Image Size',
@@ -22,6 +23,6 @@ $background
         'allow_null' => 0,
         'layout' => 'horizontal',
         'return_format' => 'value',
-    ]);
+    ])->setWrapper(['width' => '50']);
 
 return $background;

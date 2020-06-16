@@ -12,12 +12,12 @@
 @endif
   <div class='container'>
     <div class='entry-content lg:w-4/5 mx-auto'>
-      <h2>{{ $block->header }}</h2>
+      @if( !empty($block->header) )<h2>{{ $block->header }}</h2>@endif
       <div class='flex flex-wrap'>
-        <div class='w-full lg:w-2/5'>
+        <div class='w-full {!! $block->left_width !!}'>
           {!! $block->content !!}
         </div>
-        <div class='w-full lg:w-3/5 pl-24'>
+        <div class='w-full {!! $block->right_width !!}'>
           {!! $block->right_column !!}
         </div>
       </div>
