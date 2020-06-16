@@ -385,6 +385,8 @@ function style_cleanup() {
     //Simple Lightbox
     //wp_dequeue_style('slb_core');
 
+    wp_dequeue_style( 'wp-block-library' );
+
   }
   //This is how you dequeue scripts on a speciic Page
   // if(basename(get_page_template()) == "template-form.blade.php") {
